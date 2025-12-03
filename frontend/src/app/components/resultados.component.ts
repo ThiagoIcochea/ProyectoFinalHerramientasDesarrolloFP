@@ -13,10 +13,34 @@ import { ProcesoVotacion, ResultadoVotacion } from '../models/models';
   template: `
     <div class="container">
       <div class="header">
-        <button class="btn-back" (click)="volver()">← Volver</button>
-        <div *ngIf="proceso">
-          <h1>Resultados: {{proceso.titulo}}</h1>
-          <p class="estado-proceso">Estado: <span [class]="'badge-' + proceso.estado.toLowerCase()">{{proceso.estado}}</span></p>
+        <button class="btn-back" (click)="volver()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Volver
+        </button>
+        <div class="header-content" *ngIf="proceso">
+          <h1>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10" stroke="url(#grad1)"/>
+              <line x1="12" y1="20" x2="12" y2="4" stroke="url(#grad1)"/>
+              <line x1="6" y1="20" x2="6" y2="14" stroke="url(#grad1)"/>
+              <defs>
+                <linearGradient id="grad1" x1="6" y1="4" x2="18" y2="20">
+                  <stop offset="0%" stop-color="#667eea"/>
+                  <stop offset="100%" stop-color="#764ba2"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            Resultados: {{proceso.titulo}}
+          </h1>
+          <p class="estado-proceso">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Estado: <span [class]="'badge-' + proceso.estado.toLowerCase()">{{proceso.estado}}</span>
+          </p>
         </div>
       </div>
 
@@ -25,21 +49,42 @@ import { ProcesoVotacion, ResultadoVotacion } from '../models/models';
       <div class="resultados-content" *ngIf="!cargando">
         <div class="estadisticas">
           <div class="stat-card">
-            <div class="stat-icon">🗳️</div>
+            <div class="stat-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 7H4V17H20V7Z"/>
+                <circle cx="12" cy="12" r="1.5"/>
+              </svg>
+            </div>
             <div class="stat-info">
               <div class="stat-label">Total de Votos</div>
               <div class="stat-value">{{totalVotos}}</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">👥</div>
+            <div class="stat-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
             <div class="stat-info">
               <div class="stat-label">Candidatos</div>
               <div class="stat-value">{{resultados.length}}</div>
             </div>
           </div>
           <div class="stat-card ganador" *ngIf="resultados.length > 0">
-            <div class="stat-icon">🏆</div>
+            <div class="stat-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                <path d="M4 22h16"/>
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+              </svg>
+            </div>
             <div class="stat-info">
               <div class="stat-label">Ganador</div>
               <div class="stat-value">{{resultados[0].nombre_candidato}}</div>
@@ -57,9 +102,18 @@ import { ProcesoVotacion, ResultadoVotacion } from '../models/models';
                      [alt]="resultado.nombre_candidato" class="avatar">
                 <div>
                   <h3>
-                    <span *ngIf="i === 0" class="medalla">🏆</span>
-                    <span *ngIf="i === 1" class="medalla">🥈</span>
-                    <span *ngIf="i === 2" class="medalla">🥉</span>
+                    <svg *ngIf="i === 0" width="24" height="24" viewBox="0 0 24 24" fill="#fbbf24" stroke="#f59e0b" stroke-width="1" class="medalla">
+                      <circle cx="12" cy="12" r="10"/>
+                      <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">1</text>
+                    </svg>
+                    <svg *ngIf="i === 1" width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" stroke="#64748b" stroke-width="1" class="medalla">
+                      <circle cx="12" cy="12" r="10"/>
+                      <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">2</text>
+                    </svg>
+                    <svg *ngIf="i === 2" width="24" height="24" viewBox="0 0 24 24" fill="#fb923c" stroke="#f97316" stroke-width="1" class="medalla">
+                      <circle cx="12" cy="12" r="10"/>
+                      <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">3</text>
+                    </svg>
                     {{resultado.nombre_candidato}}
                   </h3>
                   <div class="resultado-stats">
@@ -103,79 +157,463 @@ import { ProcesoVotacion, ResultadoVotacion } from '../models/models';
         </div>
 
         <div class="acciones" *ngIf="esAdmin">
-          <button class="btn-export" (click)="exportarCSV()">📊 Exportar CSV</button>
-          <button class="btn-export" (click)="exportarPDF()">📄 Exportar PDF</button>
+          <button class="btn-export" (click)="exportarCSV()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Exportar CSV
+          </button>
+          <button class="btn-export" (click)="exportarPDF()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            Exportar PDF
+          </button>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    .container { min-height: 100vh; background: #f5f5f5; padding: 32px 20px; }
-    .header { max-width: 1200px; margin: 0 auto 32px; }
-    .btn-back { padding: 8px 16px; background: #6c757d; color: white; border: none;
-                 border-radius: 6px; cursor: pointer; margin-bottom: 16px; transition: background 0.3s; }
-    .btn-back:hover { background: #5a6268; }
-    h1 { margin: 0; color: #333; }
-    .estado-proceso { margin: 8px 0 0; color: #666; }
-    .badge-abierto { padding: 4px 12px; background: #d1fae5; color: #065f46; border-radius: 4px; font-weight: 700; }
-    .badge-cerrado { padding: 4px 12px; background: #fee2e2; color: #991b1b; border-radius: 4px; font-weight: 700; }
-    .badge-finalizado { padding: 4px 12px; background: #e0e7ff; color: #3730a3; border-radius: 4px; font-weight: 700; }
-    .loading { text-align: center; padding: 40px; color: #666; }
-    .resultados-content { max-width: 1200px; margin: 0 auto; }
-    .estadisticas { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 32px; }
-    .stat-card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                  display: flex; align-items: center; gap: 16px; }
-    .stat-card.ganador { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); }
-    .stat-icon { font-size: 40px; }
-    .stat-info { flex: 1; }
-    .stat-label { color: #666; font-size: 14px; margin-bottom: 4px; }
-    .stat-value { color: #333; font-size: 28px; font-weight: 700; }
-    .resultados-tabla { background: white; padding: 32px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                         margin-bottom: 32px; }
-    .resultados-tabla h2 { margin: 0 0 24px; color: #333; }
-    .resultado-item { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #e5e7eb; }
-    .resultado-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
-    .resultado-item.primer-lugar { background: linear-gradient(to right, #fef3c7 0%, transparent 100%);
-                                     padding: 16px; border-radius: 8px; margin: -8px; margin-bottom: 16px; }
-    .resultado-header { margin-bottom: 12px; }
-    .candidato-info { display: flex; align-items: center; gap: 16px; }
-    .avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
-    .candidato-info h3 { margin: 0 0 8px; color: #333; font-size: 20px; }
-    .medalla { font-size: 24px; margin-right: 8px; }
-    .resultado-stats { display: flex; gap: 16px; }
-    .votos { color: #666; font-weight: 600; }
-    .porcentaje { color: #2563eb; font-weight: 700; font-size: 18px; }
-    .barra-container { height: 30px; background: #e5e7eb; border-radius: 15px; overflow: hidden; }
-    .barra-progreso { height: 100%; background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
-                       transition: width 1s ease-out; }
-    .barra-progreso.barra-ganador { background: linear-gradient(90deg, #10b981 0%, #059669 100%); }
-    .grafico-visual { background: white; padding: 32px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                       margin-bottom: 32px; }
-    .grafico-visual h2 { margin: 0 0 32px; color: #333; }
-    .grafico-barras { display: flex; align-items: flex-end; justify-content: space-around; height: 400px;
-                       padding: 20px; background: #f8fafc; border-radius: 8px; }
-    .barra-item { flex: 1; display: flex; flex-direction: column; align-items: center; max-width: 150px; }
-    .barra-visual { width: 100%; flex: 1; display: flex; align-items: flex-end; justify-content: center; }
-    .barra-fill { width: 60%; min-height: 5%; background: #2563eb; border-radius: 8px 8px 0 0;
-                   position: relative; transition: height 1s ease-out; display: flex; align-items: flex-start;
-                   justify-content: center; padding-top: 8px; }
-    .barra-fill.barra-gold { background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%); }
-    .barra-fill.barra-silver { background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%); }
-    .barra-fill.barra-bronze { background: linear-gradient(180deg, #fb923c 0%, #f97316 100%); }
-    .barra-valor { color: white; font-weight: 700; font-size: 16px; }
-    .barra-label { margin-top: 12px; text-align: center; width: 100%; }
-    .avatar-mini { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 8px; }
-    .barra-label span { display: block; font-size: 12px; color: #666; font-weight: 600; }
-    .empty { text-align: center; padding: 40px; color: #999; }
-    .acciones { display: flex; gap: 16px; justify-content: center; }
-    .btn-export { padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 8px;
-                   font-weight: 600; cursor: pointer; transition: all 0.3s; }
-    .btn-export:hover { background: #059669; transform: translateY(-2px); }
+    .container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
+      padding: var(--spacing-8) var(--spacing-6);
+    }
+
+    .header {
+      max-width: 1200px;
+      margin: 0 auto var(--spacing-8);
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      padding: var(--spacing-2) var(--spacing-4);
+      background: var(--color-gray-600);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--spacing-6);
+      transition: all var(--transition-base);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-back:hover {
+      background: var(--color-gray-700);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .header-content h1 {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3);
+      margin: 0;
+      color: var(--color-gray-900);
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+    }
+
+    .header-content h1 svg {
+      filter: drop-shadow(0 4px 6px rgba(102, 126, 234, 0.3));
+    }
+
+    .estado-proceso {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      margin: var(--spacing-2) 0 0;
+      color: var(--color-gray-600);
+      font-size: var(--font-size-base);
+    }
+
+    .estado-proceso svg {
+      color: var(--color-primary-600);
+    }
+
+    .badge-abierto,
+    .badge-cerrado,
+    .badge-finalizado,
+    .badge-pendiente {
+      padding: var(--spacing-1) var(--spacing-3);
+      border-radius: var(--radius-full);
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-abierto {
+      background: var(--color-success-100);
+      color: var(--color-success-700);
+    }
+
+    .badge-cerrado {
+      background: var(--color-error-100);
+      color: var(--color-error-700);
+    }
+
+    .badge-finalizado {
+      background: var(--color-gray-200);
+      color: var(--color-gray-700);
+    }
+
+    .badge-pendiente {
+      background: var(--color-warning-100);
+      color: var(--color-warning-700);
+    }
+    .loading {
+      text-align: center;
+      padding: var(--spacing-16);
+      color: var(--color-gray-600);
+      font-size: var(--font-size-lg);
+    }
+
+    .resultados-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .estadisticas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--spacing-6);
+      margin-bottom: var(--spacing-8);
+    }
+
+    .stat-card {
+      background: white;
+      padding: var(--spacing-6);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-xl);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-4);
+      transition: all var(--transition-base);
+      border-top: 4px solid var(--color-primary-500);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-2xl);
+    }
+
+    .stat-card.ganador {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-top-color: #f59e0b;
+    }
+
+    .stat-icon {
+      color: var(--color-primary-600);
+    }
+
+    .stat-card.ganador .stat-icon {
+      color: #f59e0b;
+    }
+
+    .stat-info {
+      flex: 1;
+    }
+
+    .stat-label {
+      color: var(--color-gray-600);
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--spacing-1);
+      font-weight: var(--font-weight-medium);
+    }
+
+    .stat-value {
+      color: var(--color-gray-900);
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+    }
+    .resultados-tabla {
+      background: white;
+      padding: var(--spacing-8);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-xl);
+      margin-bottom: var(--spacing-8);
+    }
+
+    .resultados-tabla h2 {
+      margin: 0 0 var(--spacing-6);
+      color: var(--color-gray-900);
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+    }
+
+    .resultado-item {
+      margin-bottom: var(--spacing-6);
+      padding-bottom: var(--spacing-6);
+      border-bottom: 2px solid var(--color-gray-100);
+      transition: all var(--transition-base);
+    }
+
+    .resultado-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .resultado-item.primer-lugar {
+      background: linear-gradient(to right, rgba(254, 243, 199, 0.5) 0%, transparent 100%);
+      padding: var(--spacing-4);
+      border-radius: var(--radius-xl);
+      margin: calc(var(--spacing-2) * -1);
+      margin-bottom: var(--spacing-4);
+      border: 2px solid #fbbf24;
+    }
+
+    .resultado-header {
+      margin-bottom: var(--spacing-3);
+    }
+
+    .candidato-info {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-4);
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .candidato-info h3 {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      margin: 0 0 var(--spacing-2);
+      color: var(--color-gray-900);
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+    }
+
+    .medalla {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    .resultado-stats {
+      display: flex;
+      gap: var(--spacing-4);
+      align-items: center;
+    }
+
+    .votos {
+      color: var(--color-gray-600);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-base);
+    }
+
+    .porcentaje {
+      color: var(--color-primary-600);
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-xl);
+    }
+
+    .barra-container {
+      height: 36px;
+      background: var(--color-gray-100);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .barra-progreso {
+      height: 100%;
+      background: var(--gradient-primary);
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
+    }
+
+    .barra-progreso.barra-ganador {
+      background: linear-gradient(90deg, var(--color-success-500) 0%, var(--color-success-600) 100%);
+    }
+    .grafico-visual {
+      background: white;
+      padding: var(--spacing-8);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-xl);
+      margin-bottom: var(--spacing-8);
+    }
+
+    .grafico-visual h2 {
+      margin: 0 0 var(--spacing-8);
+      color: var(--color-gray-900);
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+    }
+
+    .grafico-barras {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      height: 420px;
+      padding: var(--spacing-6);
+      background: linear-gradient(135deg, var(--color-gray-50) 0%, white 100%);
+      border-radius: var(--radius-xl);
+      border: 2px solid var(--color-gray-100);
+    }
+
+    .barra-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 160px;
+    }
+
+    .barra-visual {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .barra-fill {
+      width: 70%;
+      min-height: 5%;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      position: relative;
+      transition: height 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: var(--spacing-2);
+      box-shadow: 0 -4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .barra-fill.barra-gold {
+      background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+      box-shadow: 0 -4px 12px rgba(251, 191, 36, 0.4);
+    }
+
+    .barra-fill.barra-silver {
+      background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
+      box-shadow: 0 -4px 12px rgba(148, 163, 184, 0.4);
+    }
+
+    .barra-fill.barra-bronze {
+      background: linear-gradient(180deg, #fb923c 0%, #f97316 100%);
+      box-shadow: 0 -4px 12px rgba(251, 146, 60, 0.4);
+    }
+
+    .barra-valor {
+      color: white;
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-lg);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .barra-label {
+      margin-top: var(--spacing-3);
+      text-align: center;
+      width: 100%;
+    }
+
+    .avatar-mini {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-bottom: var(--spacing-2);
+      border: 3px solid white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .barra-label span {
+      display: block;
+      font-size: var(--font-size-xs);
+      color: var(--color-gray-700);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .empty {
+      text-align: center;
+      padding: var(--spacing-16);
+      color: var(--color-gray-500);
+      font-size: var(--font-size-lg);
+    }
+
+    .acciones {
+      display: flex;
+      gap: var(--spacing-4);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-export {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      padding: var(--spacing-3) var(--spacing-6);
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-base);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-export:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    @media (max-width: 1024px) {
+      .estadisticas {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 768px) {
-      .estadisticas { grid-template-columns: 1fr; }
-      .grafico-barras { height: 300px; }
-      .barra-item { max-width: 80px; }
-      .barra-label span { font-size: 10px; }
+      .container {
+        padding: var(--spacing-6) var(--spacing-4);
+      }
+
+      .resultados-tabla,
+      .grafico-visual {
+        padding: var(--spacing-6);
+      }
+
+      .grafico-barras {
+        height: 320px;
+      }
+
+      .barra-item {
+        max-width: 90px;
+      }
+
+      .barra-label span {
+        font-size: 10px;
+      }
+
+      .acciones {
+        flex-direction: column;
+      }
+
+      .btn-export {
+        width: 100%;
+        justify-content: center;
+      }
     }
   `]
 })

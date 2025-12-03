@@ -13,106 +13,463 @@ import { ProcesoVotacion } from '../models/models';
   template: `
     <div class="container">
       <div class="header">
-        <button class="btn-back" (click)="volver()">← Volver</button>
-        <h1>Editar Proceso de Votación</h1>
+        <button class="btn-back" (click)="volver()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Volver
+        </button>
+        <h1>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="url(#grad1)"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="url(#grad1)"/>
+            <defs>
+              <linearGradient id="grad1" x1="2" y1="4" x2="22" y2="22">
+                <stop offset="0%" stop-color="#667eea"/>
+                <stop offset="100%" stop-color="#764ba2"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          Editar Proceso de Votación
+        </h1>
       </div>
 
       <form (ngSubmit)="guardar()" class="form" *ngIf="proceso">
         <div class="form-group">
-          <label>Título del Proceso *</label>
+          <label>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            Título del Proceso *
+          </label>
           <input type="text" [(ngModel)]="proceso.titulo" name="titulo" required
                  placeholder="Ej: Elección de Delegado 2024">
         </div>
 
         <div class="form-group">
-          <label>Descripción</label>
+          <label>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            Descripción
+          </label>
           <textarea [(ngModel)]="proceso.descripcion" name="descripcion" rows="4"
                     placeholder="Describe el proceso de votación..."></textarea>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label>Fecha de Inicio *</label>
+            <label>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>
+              </svg>
+              Fecha de Inicio *
+            </label>
             <input type="datetime-local" [(ngModel)]="fechaInicioLocal" name="fecha_inicio" required>
           </div>
 
           <div class="form-group">
-            <label>Fecha de Cierre *</label>
+            <label>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <path d="M17 14l-5 5-3-3"/>
+              </svg>
+              Fecha de Cierre *
+            </label>
             <input type="datetime-local" [(ngModel)]="fechaCierreLocal" name="fecha_cierre" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Estado</label>
-          <select [(ngModel)]="proceso.estado" name="estado" class="select-estado">
-            <option value="PENDIENTE">PENDIENTE</option>
-            <option value="ABIERTO">ABIERTO</option>
-            <option value="CERRADO">CERRADO</option>
-            <option value="FINALIZADO">FINALIZADO</option>
-          </select>
+          <label>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Estado
+          </label>
+          <div class="estado-selector">
+            <select [(ngModel)]="proceso.estado" name="estado" class="select-estado">
+              <option value="PENDIENTE">PENDIENTE</option>
+              <option value="ABIERTO">ABIERTO</option>
+              <option value="CERRADO">CERRADO</option>
+              <option value="FINALIZADO">FINALIZADO</option>
+            </select>
+            <div class="estado-badge" [class]="'badge-' + proceso.estado.toLowerCase()">
+              {{proceso.estado}}
+            </div>
+          </div>
         </div>
 
-        <div class="alert alert-error" *ngIf="error">{{error}}</div>
-        <div class="alert alert-success" *ngIf="success">{{success}}</div>
+        <div class="alert alert-error" *ngIf="error">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          {{error}}
+        </div>
+        
+        <div class="alert alert-success" *ngIf="success">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          {{success}}
+        </div>
 
         <div class="form-actions">
-          <button type="button" class="btn-secondary" (click)="volver()">Cancelar</button>
+          <button type="button" class="btn-secondary" (click)="volver()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Cancelar
+          </button>
           <button type="submit" class="btn-primary" [disabled]="guardando">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" *ngIf="!guardando">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            <div class="spinner-small" *ngIf="guardando"></div>
             {{guardando ? 'Guardando...' : 'Guardar Cambios'}}
           </button>
         </div>
       </form>
 
-      <div class="loading" *ngIf="!proceso">Cargando proceso...</div>
+      <div class="loading-container" *ngIf="!proceso">
+        <div class="spinner"></div>
+        <p>Cargando proceso...</p>
+      </div>
     </div>
   `,
   styles: [`
-    .container { max-width: 800px; margin: 0 auto; padding: 32px 20px; }
-    .header { margin-bottom: 32px; }
-    .btn-back { padding: 8px 16px; background: #6c757d; color: white; border: none;
-                 border-radius: 6px; cursor: pointer; margin-bottom: 16px; }
-    .btn-back:hover { background: #5a6268; }
-    h1 { margin: 0; color: #333; }
-    .form { background: white; padding: 32px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .form-group { margin-bottom: 24px; }
-    .form-group label { display: block; font-weight: 600; margin-bottom: 10px; color: #333; font-size: 15px; }
-    .form-group input, .form-group textarea, .form-group select {
+    .container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
+      padding: var(--spacing-8) var(--spacing-6);
+    }
+
+    .header {
+      max-width: 900px;
+      margin: 0 auto var(--spacing-8);
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      padding: var(--spacing-2) var(--spacing-4);
+      background: var(--color-gray-600);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--spacing-6);
+      transition: all var(--transition-base);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-back:hover {
+      background: var(--color-gray-700);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .header h1 {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3);
+      margin: 0;
+      color: var(--color-gray-900);
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+    }
+
+    .header h1 svg {
+      filter: drop-shadow(0 4px 6px rgba(102, 126, 234, 0.3));
+    }
+
+    .form {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: var(--spacing-10);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-xl);
+      border-top: 4px solid transparent;
+      border-image: var(--gradient-primary) 1;
+    }
+
+    .form-group {
+      margin-bottom: var(--spacing-6);
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--spacing-3);
+      color: var(--color-gray-700);
+      font-size: var(--font-size-base);
+    }
+
+    .form-group label svg {
+      color: var(--color-primary-600);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
       width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e0e0e0;
-      border-radius: 6px;
-      font-size: 15px;
+      padding: var(--spacing-3) var(--spacing-4);
+      border: 2px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      font-size: var(--font-size-base);
       font-family: inherit;
       box-sizing: border-box;
+      transition: all var(--transition-base);
+      background: var(--color-gray-50);
     }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
       outline: none;
-      border-color: #2563eb;
+      border-color: var(--color-primary-500);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+      line-height: var(--line-height-relaxed);
+    }
+
     .select-estado {
       cursor: pointer;
-      background-color: white;
     }
+
+    .estado-selector {
+      display: flex;
+      gap: var(--spacing-3);
+      align-items: center;
+    }
+
+    .estado-selector select {
+      flex: 1;
+    }
+
+    .estado-badge {
+      padding: var(--spacing-2) var(--spacing-4);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .badge-pendiente {
+      background: var(--color-warning-100);
+      color: var(--color-warning-700);
+    }
+
+    .badge-abierto {
+      background: var(--color-success-100);
+      color: var(--color-success-700);
+    }
+
+    .badge-cerrado {
+      background: var(--color-error-100);
+      color: var(--color-error-700);
+    }
+
+    .badge-finalizado {
+      background: var(--color-gray-200);
+      color: var(--color-gray-700);
+    }
+
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      margin-bottom: 24px;
+      gap: var(--spacing-6);
+      margin-bottom: var(--spacing-6);
     }
-    .form-row .form-group { margin-bottom: 0; }
-    .alert { padding: 12px; border-radius: 6px; margin-bottom: 20px; }
-    .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-    .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
-    .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
-    .btn-primary, .btn-secondary { padding: 12px 24px; border: none; border-radius: 6px;
-                                     font-weight: 600; cursor: pointer; transition: all 0.3s; }
-    .btn-primary { background: #2563eb; color: white; }
-    .btn-primary:hover:not(:disabled) { background: #1d4ed8; }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-secondary { background: #e5e7eb; color: #333; }
-    .btn-secondary:hover { background: #d1d5db; }
-    .loading { text-align: center; padding: 60px; color: #666; }
-    @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-row .form-group {
+      margin-bottom: 0;
+    }
+
+    .alert {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3);
+      padding: var(--spacing-4);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--spacing-6);
+      font-weight: var(--font-weight-medium);
+      animation: slideDown 0.3s ease-out;
+    }
+
+    .alert svg {
+      flex-shrink: 0;
+    }
+
+    .alert-error {
+      background: var(--color-error-50);
+      color: var(--color-error-700);
+      border: 1px solid var(--color-error-200);
+    }
+
+    .alert-success {
+      background: var(--color-success-50);
+      color: var(--color-success-700);
+      border: 1px solid var(--color-success-200);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: var(--spacing-3);
+      justify-content: flex-end;
+      margin-top: var(--spacing-8);
+      padding-top: var(--spacing-8);
+      border-top: 2px solid var(--color-gray-100);
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-2);
+      padding: var(--spacing-3) var(--spacing-6);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-base);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      min-width: 160px;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: var(--color-gray-100);
+      color: var(--color-gray-700);
+      border: 2px solid var(--color-gray-200);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-gray-200);
+      border-color: var(--color-gray-300);
+    }
+
+    .loading-container {
+      text-align: center;
+      padding: var(--spacing-20) var(--spacing-6);
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--color-gray-200);
+      border-top-color: var(--color-primary-600);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto var(--spacing-4);
+    }
+
+    .spinner-small {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    .loading-container p {
+      color: var(--color-gray-600);
+      font-size: var(--font-size-base);
+      margin: 0;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .form {
+        padding: var(--spacing-6);
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .estado-selector {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+      }
+    }
   `]
 })
 export class EditarProcesoComponent implements OnInit {
